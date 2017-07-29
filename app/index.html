@@ -1,9 +1,14 @@
 <!doctype html>
-<html>
+<html ng-app="adminibot">
 
 <head>
   <meta charset="utf-8">
   <title>Adminibot - Electron Edition</title>
+
+  <!-- Angular Scripting -->
+  <script src="js/angular.min.js"></script>
+  <script src="js/angular-route.min.js"></script>
+  <script src="js/angular-script.js"></script>
 
   <!-- Material Admin theme styling -->
   <link href="css/vendors/material-design-iconic-font.min.css" rel="stylesheet">
@@ -42,11 +47,11 @@
         <li class="dropdown">
           <a href="" data-toggle="dropdown"><i class="zmdi zmdi-more-vert"></i></a>
           <div class="dropdown-menu dropdown-menu-right">
-            <a href="" class="dropdown-item">Report a bug</a>
-            <a href="" class="dropdown-item">Visit our website</a>
             <a href="" class="dropdown-item">About Adminibot</a>
-            <div class="divider dropdown-divider"></div>
             <a href="" class="dropdown-item">Open the console</a>
+            <div class="divider dropdown-divider"></div>
+            <a href="https://gitlab.com/Nadermane/adminibot-electron-edition" class="dropdown-item js-external-link">Visit our website</a>
+            <a href="https://gitlab.com/Nadermane/adminibot-electron-edition/issues" class="dropdown-item js-external-link">Report a bug</a>
           </div>
         </li>
       </ul>
@@ -70,68 +75,68 @@
           </div>
         </div>
         <ul class="navigation">
-          <li class="navigation__active">
-            <a href="#">
+          <li ng-class="{'navigation__active': $route.current.activetab == 'dashboard'}">
+            <a href="#/!">
               <i class="zmdi zmdi-view-dashboard"></i> Dashboard
             </a>
           </li>
-          <li>
-            <a href="#">
+          <li ng-class="{'navigation__active': $route.current.activetab == 'commands'}">
+            <a href="#!commands">
               <i class="zmdi zmdi-collection-text"></i> Commands
             </a>
           </li>
-          <li>
-            <a href="#">
+          <li ng-class="{'navigation__active': $route.current.activetab == 'moderation'}">
+            <a href="#!moderation">
               <i class="zmdi zmdi-alert-octagon"></i> Moderation
             </a>
           </li>
-          <li>
-            <a href="#">
+          <li ng-class="{'navigation__active': $route.current.activetab == 'timers'}">
+            <a href="#!timers">
               <i class="zmdi zmdi-timer"></i> Timers
             </a>
           </li>
-          <li>
-            <a href="#">
+          <li ng-class="{'navigation__active': $route.current.activetab == 'quotes'}">
+            <a href="#!quotes">
               <i class="zmdi zmdi-quote"></i> Quotes
             </a>
           </li>
-          <li>
-            <a href="#">
+          <li ng-class="{'navigation__active': $route.current.activetab == 'counters'}">
+            <a href="#!counters">
               <i class="zmdi zmdi-collection-plus"></i> Counters
             </a>
           </li>
-          <li>
-            <a href="#">
+          <li ng-class="{'navigation__active': $route.current.activetab == 'giveaways'}">
+            <a href="#!giveaways">
               <i class="zmdi zmdi-card-giftcard"></i> Giveaways
             </a>
           </li>
-          <li>
-            <a href="#">
+          <li ng-class="{'navigation__active': $route.current.activetab == 'currency'}">
+            <a href="#!currency">
               <i class="zmdi zmdi-money"></i> Currency
             </a>
           </li>
-          <li>
-            <a href="#">
+          <li ng-class="{'navigation__active': $route.current.activetab == 'polls'}">
+            <a href="#!polls">
               <i class="zmdi zmdi-chart"></i> Polls
             </a>
           </li>
-          <li>
-            <a href="#">
+          <li ng-class="{'navigation__active': $route.current.activetab == 'games'}">
+            <a href="#!games">
               <i class="zmdi zmdi-gamepad"></i> Games
             </a>
           </li>
-          <li>
-            <a href="#">
+          <li ng-class="{'navigation__active': $route.current.activetab == 'events'}">
+            <a href="#!events">
               <i class="zmdi zmdi-calendar"></i> Events
             </a>
           </li>
-          <li>
-            <a href="#">
+          <li ng-class="{'navigation__active': $route.current.activetab == 'queues'}">
+            <a href="#!queues">
               <i class="zmdi zmdi-time-interval"></i> Queues
             </a>
           </li>
-          <li>
-            <a href="#">
+          <li ng-class="{'navigation__active': $route.current.activetab == 'announcements'}">
+            <a href="#!announcements">
               <i class="zmdi zmdi-comment-alert"></i> Announcements
             </a>
           </li>
@@ -139,72 +144,8 @@
       </div>
     </aside>
 
-    <section class="content">
-      <div class="row quick-stats">
-        <div class="col-sm-6 col-md-3">
-          <div class="quick-stats__item bg-deep-purple">
-            <div class="quick-stats__info">
-              <h2>987,459</h2>
-              <small>Total Website Traffics</small>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-sm-6 col-md-3">
-          <div class="quick-stats__item bg-deep-purple">
-            <div class="quick-stats__info">
-              <h2>356,785K</h2>
-              <small>Total Website Impressions</small>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-sm-6 col-md-3">
-          <div class="quick-stats__item bg-deep-purple">
-            <div class="quick-stats__info">
-              <h2>$58,778</h2>
-              <small>Total Total Sales</small>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-sm-6 col-md-3">
-          <div class="quick-stats__item bg-deep-purple">
-            <div class="quick-stats__info">
-              <h2>214</h2>
-              <small>Total Support Tickets</small>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="col-md-9">
-          <div class="card" style="height:730px">
-            <div class="card-header">
-              <h2 class="card-title">Card title</h2>
-              <small class="card-subtitle">Praesent commodo cursus magna scelerisque consectetur</small>
-            </div>
-            <iframe class="card-img-bottom" src="http://player.twitch.tv/?channel=Adminibot&muted=true" height="457" width="813" frameborder="0" scrolling="no" allowfullscreen="false" style="height:100%"></iframe>
-          </div>
-        </div>
-        <div class="col-md-3">
-          <div class="card" style="height:730px">
-            <div class="card-header">
-              <h2 class="card-title">Chat</h2>
-            </div>
-            <div class="scrollbar-inner">
-              <div id="chat" class="listview listview--hover"></div>
-            </div>
-            <div id="chat-actions" class="card-block">
-              <textarea class="form-control" rows="3" maxlength="500"></textarea>
-              <button type="button" class="btn btn-primary waves-effect">Chat</button>
-            </div>
-          </div>
-        </div>
-
-
-      </div>
+    <section id="main" class="content">
+      <ng-view></ng-view>
     </section>
   </main>
 
