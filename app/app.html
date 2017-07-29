@@ -1,0 +1,237 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>Adminibot - Electron Edition</title>
+
+  <!-- Material Admin theme styling -->
+  <link href="css/vendors/material-design-iconic-font.min.css" rel="stylesheet">
+  <link href="css/vendors/animate.min.css" rel="stylesheet">
+  <link href="css/vendors/jquery.scrollbar.css" rel="stylesheet">
+  <link href="css/theme.css" rel="stylesheet" type="text/css">
+  <link href="css/theme-overrides.css" rel="stylesheet" type="text/css">
+
+  <!-- Other styling -->
+  <link href="https://fonts.googleapis.com/css?family=Roboto+Mono" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet">
+</head>
+
+<body>
+  <main class="main">
+    <header class="header">
+      <div class="navigation-trigger hidden-xl-up" data-ma-action="aside-open" data-ma-target=".sidebar">
+        <div class="navigation-trigger__inner">
+          <i class="navigation-trigger__line"></i>
+          <i class="navigation-trigger__line"></i>
+          <i class="navigation-trigger__line"></i>
+        </div>
+      </div>
+
+      <div class="header__logo">
+        <h1><a href="index.html">Adminibot</a></h1>
+      </div>
+
+      <ul class="top-nav">
+        <li class="dropdown">
+          <a href="#">
+            <i class="zmdi zmdi-settings"></i>
+          </a>
+        </li>
+        <li class="dropdown">
+          <a href="" data-toggle="dropdown"><i class="zmdi zmdi-more-vert"></i></a>
+          <div class="dropdown-menu dropdown-menu-right">
+            <a href="" class="dropdown-item">Report a bug</a>
+            <a href="" class="dropdown-item">Visit our website</a>
+            <a href="" class="dropdown-item">About Adminibot</a>
+            <div class="divider dropdown-divider"></div>
+            <a href="" class="dropdown-item">Open the console</a>
+          </div>
+        </li>
+      </ul>
+    </header>
+
+    <aside class="sidebar">
+      <div class="scrollbar-inner">
+        <div class="user">
+          <div class="user__info" data-toggle="dropdown">
+            <!-- <img class="user__img" src="demo/img/profile-pics/8.jpg" alt=""> -->
+            <div>
+              <div class="user__name">SomeRandomDudeOnTheStreetLulSomeLongerTextToTestTheLimitationsOfThisDiv</div>
+              <div class="user__email">malinda-h@gmail.com</div>
+            </div>
+          </div>
+
+          <div class="dropdown-menu">
+            <a class="dropdown-item" href="">View Profile</a>
+            <a class="dropdown-item" href="">Settings</a>
+            <a class="dropdown-item" href="">Logout</a>
+          </div>
+        </div>
+        <ul class="navigation">
+          <li class="navigation--active">
+            <a href="#">
+              <i class="zmdi zmdi-view-dashboard"></i> Dashboard
+            </a>
+          </li>
+          <li>
+            <a href="#">
+              <i class="zmdi zmdi-collection-text"></i> Commands
+            </a>
+          </li>
+          <li>
+            <a href="#">
+              <i class="zmdi zmdi-alert-octagon"></i> Moderation
+            </a>
+          </li>
+          <li>
+            <a href="#">
+              <i class="zmdi zmdi-timer"></i> Timers
+            </a>
+          </li>
+          <li>
+            <a href="#">
+              <i class="zmdi zmdi-quote"></i> Quotes
+            </a>
+          </li>
+          <li>
+            <a href="#">
+              <i class="zmdi zmdi-collection-plus"></i> Counters
+            </a>
+          </li>
+          <li>
+            <a href="#">
+              <i class="zmdi zmdi-card-giftcard"></i> Giveaways
+            </a>
+          </li>
+          <li>
+            <a href="#">
+              <i class="zmdi zmdi-money"></i> Currency
+            </a>
+          </li>
+          <li>
+            <a href="#">
+              <i class="zmdi zmdi-chart"></i> Polls
+            </a>
+          </li>
+          <li>
+            <a href="#">
+              <i class="zmdi zmdi-gamepad"></i> Games
+            </a>
+          </li>
+          <li>
+            <a href="#">
+              <i class="zmdi zmdi-calendar"></i> Events
+            </a>
+          </li>
+          <li>
+            <a href="#">
+              <i class="zmdi zmdi-time-interval"></i> Queues
+            </a>
+          </li>
+          <li>
+            <a href="#">
+              <i class="zmdi zmdi-comment-alert"></i> Announcements
+            </a>
+          </li>
+        </ul>
+      </div>
+    </aside>
+
+    <section class="content">
+      <div class="row quick-stats">
+        <div class="col-sm-6 col-md-3">
+          <div class="quick-stats__item bg-deep-purple">
+            <div class="quick-stats__info">
+              <h2>987,459</h2>
+              <small>Total Website Traffics</small>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-sm-6 col-md-3">
+          <div class="quick-stats__item bg-deep-purple">
+            <div class="quick-stats__info">
+              <h2>356,785K</h2>
+              <small>Total Website Impressions</small>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-sm-6 col-md-3">
+          <div class="quick-stats__item bg-deep-purple">
+            <div class="quick-stats__info">
+              <h2>$58,778</h2>
+              <small>Total Total Sales</small>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-sm-6 col-md-3">
+          <div class="quick-stats__item bg-deep-purple">
+            <div class="quick-stats__info">
+              <h2>214</h2>
+              <small>Total Support Tickets</small>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-9">
+          <div class="card" style="height:730px">
+            <div class="card-header">
+              <h2 class="card-title">Card title</h2>
+              <small class="card-subtitle">Praesent commodo cursus magna scelerisque consectetur</small>
+            </div>
+            <iframe class="card-img-bottom" src="http://player.twitch.tv/?channel=TwitchPresents&muted=true" height="457" width="813" frameborder="0" scrolling="no" allowfullscreen="false" style="height:100%"></iframe>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="card" style="height:730px">
+            <div class="card-header">
+              <h2 class="card-title">Chat</h2>
+            </div>
+            <div class="scrollbar-inner">
+              <div id="chat" class="listview listview--hover"></div>
+            </div>
+            <div id="chat-actions" class="card-block">
+              <textarea class="form-control" rows="3" maxlength="500"></textarea>
+              <button type="button" class="btn btn-primary waves-effect">Chat</button>
+            </div>
+          </div>
+        </div>
+
+
+      </div>
+    </section>
+  </main>
+
+  <script>
+    if (typeof module === 'object') {
+      window.module = module;
+      module = undefined;
+    }
+  </script>
+
+  <!-- Main Electron scripting -->
+  <script src="app.js"></script>
+
+  <!-- Material Admin scripting -->
+  <script src="js/vendors/jquery.min.js"></script>
+  <script src="js/vendors/tether.min.js"></script>
+  <script src="js/vendors/bootstrap.min.js"></script>
+  <script src="js/vendors/waves.min.js"></script>
+  <script src="js/vendors/jquery.scrollbar.min.js"></script>
+  <script src="js/vendors/jquery-scrollLock.min.js"></script>
+  <script src="js/theme.js"></script>
+  <script src="js/theme-actions.js"></script>
+  <script src="js/theme-vendors.js"></script>
+
+  <script>
+    if (window.module) module = window.module;
+  </script>
+</body>
+
+</html>

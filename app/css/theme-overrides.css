@@ -1,0 +1,35 @@
+#chat {
+  height: 550px;
+}
+
+#chat .listview__item {
+  padding: 8px 2.1rem;
+}
+
+#chat-actions {
+  background-color: rgba(255, 255, 255, 0.05);
+  padding: 0;
+}
+
+#chat-actions textarea {
+  padding: 8px;
+  overflow: hidden;
+}
+
+#chat-actions .btn {
+  margin: 8px;
+}
+
+.user__name, .user__email {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 200px;
+}
+
+.navigation--active a {
+  color: #673AB7 !important;
+}
+
+.chat-notice {
+  background-color: rgba(255,255,255,0.01);
+}
