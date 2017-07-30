@@ -7,23 +7,23 @@ const { app } = require('electron')
 const ipc = require('electron').ipcRenderer;
 const remote = require('electron').remote;
 
-document.getElementById("min-btn").addEventListener("click", function (e) {
-     var window = remote.getCurrentWindow();
-     window.minimize();
+document.getElementById("min-btn").addEventListener("click", function(e) {
+  var window = remote.getCurrentWindow();
+  window.minimize();
 });
 
-document.getElementById("max-btn").addEventListener("click", function (e) {
-     var window = remote.getCurrentWindow();
-     if (!window.isMaximized()) {
-         window.maximize();
-     } else {
-         window.unmaximize();
-     }
+document.getElementById("max-btn").addEventListener("click", function(e) {
+  var window = remote.getCurrentWindow();
+  if (!window.isMaximized()) {
+    window.maximize();
+  } else {
+    window.unmaximize();
+  }
 });
 
-document.getElementById("close-btn").addEventListener("click", function (e) {
-     var window = remote.getCurrentWindow();
-     window.close();
+document.getElementById("close-btn").addEventListener("click", function(e) {
+  var window = remote.getCurrentWindow();
+  window.close();
 });
 
 settings.deleteAll();
@@ -61,15 +61,11 @@ var chat = document.getElementById('chat'),
 
 var joinAccounced = [];
 
-function dehash(channel) {
-  return channel.replace(/^#/, '');
-}
-
-function capitalize(n) {
+function Capitalize(n) {
   return n[0].toUpperCase() + n.substr(1);
 }
 
-function htmlEntities(html) {
+function HtmlEntities(html) {
   function it() {
     return html.map(function(n, i, arr) {
       if (n.length == 1) {
@@ -89,7 +85,7 @@ function htmlEntities(html) {
   return html;
 }
 
-function formatEmotes(text, emotes) {
+function FormatEmotes(text, emotes) {
   var splitText = text.split('');
   for (var i in emotes) {
     var e = emotes[i];
@@ -107,15 +103,15 @@ function formatEmotes(text, emotes) {
       }
     }
   }
-  return htmlEntities(splitText).join('')
+  return HtmlEntities(splitText).join('')
 }
 
-function badges(chan, user) {
+function FormatBadges(user) {
   function createBadge(name) {
     var name = name.split('-');
     var badge = document.createElement('div');
     badge.className = 'chat-badge chat-badge-' + name[0] + ' chat-badge-version-' + name[1];
-    badge.title = name[0] === 'bits' ? `${name[1]} or more bits donated` : capitalize(name[0]);
+    badge.title = name[0] === 'bits' ? `${name[1]} or more bits donated` : Capitalize(name[0]);
     return badge;
   }
 
@@ -123,7 +119,7 @@ function badges(chan, user) {
   chatBadges.className = 'chat-badges';
 
   if (user['badges-raw']) {
-    user['badges-raw'].replace(new RegExp('/', 'g'), '-').split(',').forEach(function (i) {
+    user['badges-raw'].replace(new RegExp('/', 'g'), '-').split(',').forEach(function(i) {
       chatBadges.appendChild(createBadge(i));
     })
   }
@@ -131,136 +127,12 @@ function badges(chan, user) {
   return chatBadges;
 }
 
-function handleChat(channel, user, message, self) {
-
-  var chan = dehash(channel),
-    name = user.username,
-    chatLine = document.createElement('div'),
-    chatName = document.createElement('a'),
-    chatMessage = document.createElement('span');
-
-  var color = settings.get('chatUseUsernameColors') ? user.color : 'inherit';
-  if (color === null) {
-    if (!randomColorsChosen.hasOwnProperty(chan)) {
-      randomColorsChosen[chan] = {};
-    }
-    if (randomColorsChosen[chan].hasOwnProperty(name)) {
-      color = randomColorsChosen[chan][name];
-    } else {
-      color = defaultColors[Math.floor(Math.random() * defaultColors.length)];
-      randomColorsChosen[chan][name] = color;
-    }
-  }
-
-  chatLine.className = 'listview__item chat-line';
-  chatLine.dataset.username = name;
-  chatLine.dataset.channel = channel;
-
-  if (user['message-type'] == 'action') {
-    chatLine.className += ' chat-action';
-  }
-
-  chatName.className = 'chat-name js-external-link';
-  chatName.style.color = color;
-  chatName.href = `https://www.twitch.tv/${name}/`;
-
-  if (user['display-name'] && user['display-name'].toLowerCase() != name.toLowerCase()) {
-    chatName.innerHTML = `${user['display-name']} (${name})`;
-  } else {
-    chatName.innerHTML = user['display-name'] || name;
-  }
-
-  chatMessage.appendChild(chatName);
-
-  chatMessage.className = 'chat-message';
-
-  chatMessage.insertAdjacentHTML('beforeend', ': ');
-  chatMessage.insertAdjacentHTML('beforeend', settings.get('chatShowEmotes') ? formatEmotes(message, user.emotes) : htmlEntities(message));
-
-  if (settings.get('chatShowBadges')) chatLine.appendChild(badges(chan, user, self));
-  chatLine.appendChild(chatMessage);
-
-  chat.appendChild(chatLine);
-
+function AddChatMessage(message, channel, userstate) {
   if (chat.children.length > 50) {
     var oldMessages = [].slice.call(chat.children).slice(0, 10);
     for (var i in oldMessages) oldMessages[i].remove();
   }
 
-  chat.scrollTop = chat.scrollHeight;
-}
-
-function chatNotice(information, level, additionalClasses) {
-  var ele = document.createElement('li');
-
-  ele.className = 'listview__item chat-line chat-notice';
-  ele.innerHTML = information;
-
-  if (additionalClasses !== undefined) {
-    if (Array.isArray(additionalClasses)) {
-      additionalClasses = additionalClasses.join(' ');
-    }
-    ele.className += ' ' + additionalClasses;
-  }
-
-  if (typeof level == 'number' && level != 0) {
-    ele.dataset.level = level;
-  }
-
-  chat.appendChild(ele);
-
-  return ele;
-}
-
-var recentTimeouts = {};
-
-function timeout(channel, username) {
-  if (!settings.get('chatProcessTimeouts')) return false;
-  if (!recentTimeouts.hasOwnProperty(channel)) {
-    recentTimeouts[channel] = {};
-  }
-  if (!recentTimeouts[channel].hasOwnProperty(username) || recentTimeouts[channel][username] + 1000 * 10 < +new Date) {
-    recentTimeouts[channel][username] = +new Date;
-    chatNotice(capitalize(username) + ' was timed out in ' + capitalize(dehash(channel)), 1000, 1, 'chat-delete-timeout')
-  };
-  var toHide = document.querySelectorAll('.chat-line[data-channel="' + channel + '"][data-username="' + username + '"]:not(.chat-timedout) .chat-message');
-  for (var i in toHide) {
-    var h = toHide[i];
-    if (typeof h == 'object') {
-      h.parentElement.remove();
-    }
-  }
-}
-
-function clearChat(channel) {
-  if (!settings.get('chatProcessClears')) return false;
-  var toHide = document.querySelectorAll('.chat-line[data-channel="' + channel + '"]');
-  for (var i in toHide) {
-    var h = toHide[i];
-    if (typeof h == 'object') {
-      h.className += ' chat-cleared';
-    }
-  }
-  chatNotice('Chat was cleared in ' + capitalize(dehash(channel)), 1000, 1, 'chat-delete-clear')
-}
-
-function hosting(channel, target, viewers, unhost) {
-  if (!settings.get('chatShowHostingAnnouncements')) return false;
-  if (viewers == '-') viewers = 0;
-  var chan = dehash(channel);
-  chan = capitalize(chan);
-  if (!unhost) {
-    var targ = capitalize(target);
-    chatNotice(chan + ' is now hosting ' + targ + ' for ' + viewers + ' viewer' + (viewers !== 1 ? 's' : '') + '.', null, null, 'chat-hosting-yes');
-  } else {
-    chatNotice(chan + ' is no longer hosting.', null, null, 'chat-hosting-no');
-  }
-}
-
-
-
-
-function AddChatMessage(message, channel, userstate) {
   if (message && channel && userstate) {
     // We have a chat message.
     var name = userstate.username;
@@ -310,9 +182,9 @@ function AddChatMessage(message, channel, userstate) {
     // Setup the message body.
     chatMessageBody.className = 'chat-message';
     chatMessageBody.appendChild(chatUsernameBody);
-    chatMessageBody.innerHTML = settings.get('chatShowEmotes') ? formatEmotes(message, userstate.emotes) : htmlEntities(message);
+    chatMessageBody.innerHTML = settings.get('chatShowEmotes') ? FormatEmotes(message, userstate.emotes) : HtmlEntities(message);
 
-    chatContainer.appendChild(badges(channel, userstate));
+    chatContainer.appendChild(FormatBadges(userstate));
     chatContainer.appendChild(chatUsernameBody);
     chatContainer.appendChild(chatColonBody);
     chatContainer.appendChild(chatMessageBody);
@@ -336,10 +208,10 @@ function AddChatMessage(message, channel, userstate) {
 
 // Status subscriptions and handlers.
 ipc.send('createIrcInstance', {
-    connection: {
-        reconnect: false
-    },
-    channels: ["monstercat"]
+  connection: {
+    reconnect: false
+  },
+  channels: ["imaqtpie"]
 });
 
 ipc.send('subscribeToConnecting');
