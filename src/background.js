@@ -120,14 +120,17 @@ let ProcessMessage = function(input) {
 }
 
 // Global IRC Stuff
-var options = {
-    connection: {
-        reconnect: true
-    },
-    channels: ["Adminibot"]
-};
+let IrcClient;
 
-let IrcClient = new irc.client(options);
+ipc.on('createIrcInstance', (event, arg) => {
+  // First we close any instance we currently have.
+  // Note: This will send a "Connection closed" promise to any currently active listener.
+  if (IrcClient !== undefined)
+    IrcClient.disconnect();
+
+  // Now we should be safe to create a new instance.
+  IrcClient = new irc.client(arg);
+});
 
 // IRC Functions
 ipc.on('executeAction', (event, arg) => {

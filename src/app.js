@@ -307,6 +307,13 @@ function AddChatMessage(message, channel, userstate) {
 }
 
 // Status subscriptions and handlers.
+ipc.send('createIrcInstance', {
+    connection: {
+        reconnect: true
+    },
+    channels: ["Adminibot"]
+});
+
 ipc.send('subscribeToConnecting');
 ipc.on('connectingReceived', (sender, args) => {
   if (settings.get('chatShowConnectionAnnouncements'))
