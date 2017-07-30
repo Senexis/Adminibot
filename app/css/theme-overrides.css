@@ -6,6 +6,27 @@
   -webkit-app-region: no-drag;
 }
 
+.form-group .toggle-switch, .form-group .btn-group {
+  float: right;
+}
+
+.form-group .btn-group-label {
+  line-height: 28px;
+}
+
+.form-group .input-group-label {
+  margin-bottom: 8px;
+  display: block;
+}
+
+.form-group .toggle-switch-label {
+  line-height: 20px;
+}
+
+.input-group {
+  margin-bottom: 2rem;
+}
+
 #chat {
   height: 550px;
 }

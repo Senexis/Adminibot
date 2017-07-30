@@ -211,7 +211,7 @@ ipc.send('createIrcInstance', {
   connection: {
     reconnect: false
   },
-  channels: ["imaqtpie"]
+  channels: ["dansgaming"]
 });
 
 ipc.send('subscribeToConnecting');

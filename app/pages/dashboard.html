@@ -1,33 +1,172 @@
+<header class="content__title" ng-init="initialize()">
+  <h1>Dashboard</h1>
+</header>
+
 <div class="row quick-stats">
   <div class="col-sm-6 col-md-3">
     <div class="quick-stats__item bg-deep-purple">
       <div class="quick-stats__info">
-        <h2>987,459</h2>
-        <small>Total Website Traffics</small>
+        <h2>6</h2>
+        <small>Followers</small>
       </div>
     </div>
   </div>
   <div class="col-sm-6 col-md-3">
     <div class="quick-stats__item bg-deep-purple">
       <div class="quick-stats__info">
-        <h2>356,785K</h2>
-        <small>Total Website Impressions</small>
+        <h2>0</h2>
+        <small>Viewers</small>
       </div>
     </div>
   </div>
   <div class="col-sm-6 col-md-3">
     <div class="quick-stats__item bg-deep-purple">
       <div class="quick-stats__info">
-        <h2>$58,778</h2>
-        <small>Total Total Sales</small>
+        <h2>362</h2>
+        <small>Views</small>
       </div>
     </div>
   </div>
   <div class="col-sm-6 col-md-3">
     <div class="quick-stats__item bg-deep-purple">
       <div class="quick-stats__info">
-        <h2>$58,778</h2>
-        <small>Total Total Sales</small>
+        <h2>0</h2>
+        <small>Subscribers</small>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-6">
+    <div class="card">
+      <div class="card-header">
+        <h2 class="card-title">Stream information</h2>
+        <small class="card-subtitle">Manage and update your general stream information.</small>
+      </div>
+
+      <div class="card-block">
+        <div class="form-group form-group--float">
+          <input type="text" class="form-control">
+          <label>Title</label>
+          <i class="form-group__bar"></i>
+        </div>
+        <div class="form-group form-group--float">
+          <input type="text" class="form-control">
+          <label>Game / Category</label>
+          <i class="form-group__bar"></i>
+        </div>
+        <div class="input-group">
+          <div class="form-group form-group--float">
+            <input type="number" class="form-control">
+            <label>Stream delay</label>
+            <i class="form-group__bar"></i>
+          </div>
+          <span class="input-group-addon">seconds</span>
+        </div>
+        <div class="form-group">
+          <span class="toggle-switch-label">Channel feed</span>
+          <div class="toggle-switch">
+            <input type="checkbox" class="toggle-switch__checkbox">
+            <i class="toggle-switch__helper"></i>
+          </div>
+          <div class="clearfix"></div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <h2 class="card-title">Autohosting</h2>
+        <small class="card-subtitle">Encourage people to stick around while you're away.</small>
+      </div>
+
+      <div class="card-block">
+        <p>Text.</p>
+      </div>
+
+      <div class="card-footer">
+        <a href="#" class="card-link">Card link</a>
+        <a href="#" class="card-link">Another link</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-6">
+    <div class="card">
+      <div class="card-header">
+        <h2 class="card-title">Commercials</h2>
+        <small class="card-subtitle">[Partner only] Manage and run commercials.</small>
+      </div>
+
+      <div class="card-block">
+        <div class="form-group">
+          <span>Run commercial</span>
+          <select class="select2" data-minimum-results-for-search="Infinity">
+            <option disabled selected>Select a length...</option>
+            <option>30 seconds</option>
+            <option>60 seconds</option>
+            <option>90 seconds</option>
+            <option>120 seconds</option>
+            <option>150 seconds</option>
+            <option>180 seconds</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <span class="toggle-switch-label">Automatic commercials</span>
+          <div class="toggle-switch">
+            <input type="checkbox" class="toggle-switch__checkbox">
+            <i class="toggle-switch__helper"></i>
+          </div>
+          <div class="clearfix"></div>
+        </div>
+        <div class="form-group">
+          <span class="input-group-label">Time between commercials</span>
+          <div class="input-group">
+            <div class="form-group">
+              <input type="number" class="form-control" value="1" min="0" max="23">
+              <i class="form-group__bar"></i>
+            </div>
+            <span class="input-group-addon">h</span>
+            <div class="form-group">
+              <input type="number" class="form-control" value="0" min="0" max="59">
+              <i class="form-group__bar"></i>
+            </div>
+            <span class="input-group-addon">m</span>
+            <div class="form-group">
+              <input type="number" class="form-control" value="0" min="0" max="59">
+              <i class="form-group__bar"></i>
+            </div>
+            <span class="input-group-addon">s</span>
+          </div>
+        </div>
+        <div class="form-group">
+          <span>Commercial length</span>
+          <select class="select2" data-minimum-results-for-search="Infinity">
+            <option disabled selected>Select a length...</option>
+            <option>30 seconds</option>
+            <option>60 seconds</option>
+            <option>90 seconds</option>
+            <option>120 seconds</option>
+            <option>150 seconds</option>
+            <option>180 seconds</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <span class="toggle-switch-label">Desktop notifications</span>
+          <div class="toggle-switch">
+            <input type="checkbox" class="toggle-switch__checkbox">
+            <i class="toggle-switch__helper"></i>
+          </div>
+          <div class="clearfix"></div>
+        </div>
+        <div class="form-group">
+          <span class="toggle-switch-label">Chat notifications</span>
+          <div class="toggle-switch">
+            <input type="checkbox" class="toggle-switch__checkbox">
+            <i class="toggle-switch__helper"></i>
+          </div>
+          <div class="clearfix"></div>
+        </div>
       </div>
     </div>
   </div>
