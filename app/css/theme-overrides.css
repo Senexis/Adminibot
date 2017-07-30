@@ -1,13 +1,40 @@
+.header {
+  -webkit-app-region: drag;
+}
+
+.header a, .header button {
+  -webkit-app-region: no-drag;
+}
+
 #chat {
   height: 550px;
 }
 
 #chat .listview__item {
   padding: 8px 2.1rem;
+  word-break: break-word;
+  display: list-item;
 }
 
-#chat .listview__item p {
-  margin: 0;
+#chat .chat-name a {
+  font-weight: bold;
+}
+
+#chat .chat-badges {
+  display: inline-block;
+}
+
+#chat .chat-badges .chat-badge {
+  display: none;
+  height: 18px;
+  min-width: 18px;
+  vertical-align: middle;
+  border-radius: 2px;
+  margin: -1px 3px 1px 0;
+}
+
+#chat .chat-colon {
+  margin-right: 4px;
 }
 
 #chat .chat-notice {
@@ -26,4 +53,140 @@
 
 #chat-actions .btn {
   margin: 8px;
+}
+
+/* Chat badges */
+#chat .chat-badges .chat-badge.chat-badge-globalmod.chat-badge-version-1 {
+  display: inline-block;
+  background-image: url(https://static-cdn.jtvnw.net/chat-badges/globalmod.png);
+}
+
+#chat .chat-badges .chat-badge.chat-badge-admin.chat-badge-version-1 {
+  display: inline-block;
+  background-image: url(https://static-cdn.jtvnw.net/chat-badges/admin.png);
+}
+
+#chat .chat-badges .chat-badge.chat-badge-broadcaster.chat-badge-version-1 {
+  display: inline-block;
+  background-image: url(https://static-cdn.jtvnw.net/chat-badges/broadcaster.png);
+}
+
+#chat .chat-badges .chat-badge.chat-badge-moderator.chat-badge-version-1 {
+  display: inline-block;
+  background-image: url(https://static-cdn.jtvnw.net/chat-badges/mod.png);
+}
+
+#chat .chat-badges .chat-badge.chat-badge-staff.chat-badge-version-1 {
+  display: inline-block;
+  background-image: url(https://static-cdn.jtvnw.net/chat-badges/staff.png);
+}
+
+#chat .chat-badges .chat-badge.chat-badge-turbo.chat-badge-version-1 {
+  display: inline-block;
+  background-image: url(https://static-cdn.jtvnw.net/chat-badges/turbo.png);
+}
+
+#chat .chat-badges .chat-badge.chat-badge-premium.chat-badge-version-1 {
+  display: inline-block;
+  background-image: url(https://static-cdn.jtvnw.net/badges/v1/a1dd5073-19c3-4911-8cb4-c464a7bc1510/1);
+}
+
+#chat .chat-badges .chat-badge.chat-badge-partner.chat-badge-version-1 {
+  display: inline-block;
+  background-image: url(https://static-cdn.jtvnw.net/badges/v1/d12a2e27-16f6-41d0-ab77-b780518f00a3/1);
+}
+
+#chat .chat-badges .chat-badge.chat-badge-subscriber {
+  display: inline-block;
+  background-image: url(https://static-cdn.jtvnw.net/badges/v1/5d9f2208-5dd8-11e7-8513-2ff4adfae661/1);
+}
+
+#chat .chat-badges .chat-badge.chat-badge-bits.chat-badge-version-1 {
+  display: inline-block;
+  background-image: url(https://static-cdn.jtvnw.net/badges/v1/73b5c3fb-24f9-4a82-a852-2f475b59411c/1);
+}
+
+#chat .chat-badges .chat-badge.chat-badge-bits.chat-badge-version-100 {
+  display: inline-block;
+  background-image: url(https://static-cdn.jtvnw.net/badges/v1/09d93036-e7ce-431c-9a9e-7044297133f2/1);
+}
+
+#chat .chat-badges .chat-badge.chat-badge-bits.chat-badge-version-1000 {
+  display: inline-block;
+  background-image: url(https://static-cdn.jtvnw.net/badges/v1/0d85a29e-79ad-4c63-a285-3acd2c66f2ba/1);
+}
+
+#chat .chat-badges .chat-badge.chat-badge-bits.chat-badge-version-5000 {
+  display: inline-block;
+  background-image: url(https://static-cdn.jtvnw.net/badges/v1/57cd97fc-3e9e-4c6d-9d41-60147137234e/1);
+}
+
+#chat .chat-badges .chat-badge.chat-badge-bits.chat-badge-version-10000 {
+  display: inline-block;
+  background-image: url(https://static-cdn.jtvnw.net/badges/v1/68af213b-a771-4124-b6e3-9bb6d98aa732/1);
+}
+
+#chat .chat-badges .chat-badge.chat-badge-bits.chat-badge-version-25000 {
+  display: inline-block;
+  background-image: url(https://static-cdn.jtvnw.net/badges/v1/64ca5920-c663-4bd8-bfb1-751b4caea2dd/1);
+}
+
+#chat .chat-badges .chat-badge.chat-badge-bits.chat-badge-version-50000 {
+  display: inline-block;
+  background-image: url(https://static-cdn.jtvnw.net/badges/v1/62310ba7-9916-4235-9eba-40110d67f85d/1);
+}
+
+#chat .chat-badges .chat-badge.chat-badge-bits.chat-badge-version-75000 {
+  display: inline-block;
+  background-image: url(https://static-cdn.jtvnw.net/badges/v1/ce491fa4-b24f-4f3b-b6ff-44b080202792/1);
+}
+
+#chat .chat-badges .chat-badge.chat-badge-bits.chat-badge-version-100000 {
+  display: inline-block;
+  background-image: url(https://static-cdn.jtvnw.net/badges/v1/96f0540f-aa63-49e1-a8b3-259ece3bd098/1);
+}
+
+#chat .chat-badges .chat-badge.chat-badge-bits.chat-badge-version-200000 {
+  display: inline-block;
+  background-image: url(https://static-cdn.jtvnw.net/badges/v1/4a0b90c4-e4ef-407f-84fe-36b14aebdbb6/1);
+}
+
+#chat .chat-badges .chat-badge.chat-badge-bits.chat-badge-version-300000 {
+  display: inline-block;
+  background-image: url(https://static-cdn.jtvnw.net/badges/v1/ac13372d-2e94-41d1-ae11-ecd677f69bb6/1);
+}
+
+#chat .chat-badges .chat-badge.chat-badge-bits.chat-badge-version-400000 {
+  display: inline-block;
+  background-image: url(https://static-cdn.jtvnw.net/badges/v1/a8f393af-76e6-4aa2-9dd0-7dcc1c34f036/1);
+}
+
+#chat .chat-badges .chat-badge.chat-badge-bits.chat-badge-version-500000 {
+  display: inline-block;
+  background-image: url(https://static-cdn.jtvnw.net/badges/v1/f6932b57-6a6e-4062-a770-dfbd9f4302e5/1);
+}
+
+#chat .chat-badges .chat-badge.chat-badge-bits.chat-badge-version-600000 {
+  display: inline-block;
+  background-image: url(https://static-cdn.jtvnw.net/badges/v1/4d908059-f91c-4aef-9acb-634434f4c32e/1);
+}
+
+#chat .chat-badges .chat-badge.chat-badge-bits.chat-badge-version-700000 {
+  display: inline-block;
+  background-image: url(https://static-cdn.jtvnw.net/badges/v1/a1d2a824-f216-4b9f-9642-3de8ed370957/1);
+}
+
+#chat .chat-badges .chat-badge.chat-badge-bits.chat-badge-version-800000 {
+  display: inline-block;
+  background-image: url(https://static-cdn.jtvnw.net/badges/v1/5ec2ee3e-5633-4c2a-8e77-77473fe409e6/1);
+}
+
+#chat .chat-badges .chat-badge.chat-badge-bits.chat-badge-version-900000 {
+  display: inline-block;
+  background-image: url(https://static-cdn.jtvnw.net/badges/v1/088c58c6-7c38-45ba-8f73-63ef24189b84/1);
+}
+
+#chat .chat-badges .chat-badge.chat-badge-bits.chat-badge-version-1000000 {
+  display: inline-block;
+  background-image: url(https://static-cdn.jtvnw.net/badges/v1/494d1c8e-c3b2-4d88-8528-baff57c9bd3f/1);
 }

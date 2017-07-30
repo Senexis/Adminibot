@@ -5,6 +5,26 @@ import './helpers/external_links';
 const settings = require('electron-settings');
 const { app } = require('electron')
 const ipc = require('electron').ipcRenderer;
+const remote = require('electron').remote;
+
+document.getElementById("min-btn").addEventListener("click", function (e) {
+     var window = remote.getCurrentWindow();
+     window.minimize();
+});
+
+document.getElementById("max-btn").addEventListener("click", function (e) {
+     var window = remote.getCurrentWindow();
+     if (!window.isMaximized()) {
+         window.maximize();
+     } else {
+         window.unmaximize();
+     }
+});
+
+document.getElementById("close-btn").addEventListener("click", function (e) {
+     var window = remote.getCurrentWindow();
+     window.close();
+});
 
 settings.deleteAll();
 
@@ -90,19 +110,17 @@ function formatEmotes(text, emotes) {
   return htmlEntities(splitText).join('')
 }
 
-function badges(chan, user, isBot) {
+function badges(chan, user) {
   function createBadge(name) {
+    var name = name.split('-');
     var badge = document.createElement('div');
-    badge.className = 'chat-badge-' + name;
+    badge.className = 'chat-badge chat-badge-' + name[0] + ' chat-badge-version-' + name[1];
+    badge.title = name[0] === 'bits' ? `${name[1]} or more bits donated` : capitalize(name[0]);
     return badge;
   }
 
   var chatBadges = document.createElement('span');
   chatBadges.className = 'chat-badges';
-
-  if (isBot) {
-    chatBadges.appendChild(createBadge('bot'));
-  }
 
   if (user['badges-raw']) {
     user['badges-raw'].replace(new RegExp('/', 'g'), '-').split(',').forEach(function (i) {
@@ -248,13 +266,15 @@ function AddChatMessage(message, channel, userstate) {
     var name = userstate.username;
 
     var chatContainer = document.createElement('div');
-    var chatUsernameBody = document.createElement('a');
-    var chatMessageBody = document.createElement('p');
+    var chatUsernameBody = document.createElement('span');
+    var chatUsernameLink = document.createElement('a');
+    var chatColonBody = document.createElement('span');
+    var chatMessageBody = document.createElement('span');
 
     chatContainer.className = 'chat-line listview__item';
 
     // Setup the username body.
-    chatUsernameBody.className = 'chat-name js-external-link';
+    chatUsernameBody.className = 'chat-name';
 
     if (settings.get('chatUseUsernameColors')) {
       var color = userstate.color;
@@ -270,30 +290,38 @@ function AddChatMessage(message, channel, userstate) {
           randomColorsChosen[channel][name] = color;
         }
       }
-      chatUsernameBody.style.color = color;
+      chatUsernameLink.style.color = color;
     }
 
     if (userstate['display-name'] && userstate['display-name'].toLowerCase() != name.toLowerCase()) {
-      chatUsernameBody.innerHTML = `${userstate['display-name']} (${name})`;
+      chatUsernameLink.innerHTML = `${userstate['display-name']} (${name})`;
     } else {
-      chatUsernameBody.innerHTML = userstate['display-name'] || name;
+      chatUsernameLink.innerHTML = userstate['display-name'] || name;
     }
 
-    chatUsernameBody.href = `https://www.twitch.tv/${name}/`;
+    chatUsernameLink.href = `https://www.twitch.tv/${name}/`;
+
+    chatUsernameBody.appendChild(chatUsernameLink);
+
+    // Setup the colon body.
+    chatColonBody.className = 'chat-colon';
+    chatColonBody.innerHTML = ':';
 
     // Setup the message body.
     chatMessageBody.className = 'chat-message';
     chatMessageBody.appendChild(chatUsernameBody);
-    chatMessageBody.insertAdjacentHTML('beforeend', ': ');
-    chatMessageBody.insertAdjacentHTML('beforeend', settings.get('chatShowEmotes') ? formatEmotes(message, userstate.emotes) : htmlEntities(message));
+    chatMessageBody.innerHTML = settings.get('chatShowEmotes') ? formatEmotes(message, userstate.emotes) : htmlEntities(message);
 
+    chatContainer.appendChild(badges(channel, userstate));
+    chatContainer.appendChild(chatUsernameBody);
+    chatContainer.appendChild(chatColonBody);
     chatContainer.appendChild(chatMessageBody);
     chat.appendChild(chatContainer);
     return;
   }
   if (message) {
     var chatContainer = document.createElement('div');
-    var chatMessageBody = document.createElement('p');
+    var chatMessageBody = document.createElement('span');
 
     chatContainer.className = 'chat-line chat-notice listview__item';
 
@@ -309,9 +337,9 @@ function AddChatMessage(message, channel, userstate) {
 // Status subscriptions and handlers.
 ipc.send('createIrcInstance', {
     connection: {
-        reconnect: true
+        reconnect: false
     },
-    channels: ["Adminibot"]
+    channels: ["monstercat"]
 });
 
 ipc.send('subscribeToConnecting');
@@ -409,8 +437,3 @@ ipc.on('timeoutReceived', (sender, args) => {
 
 // Connect to IRC.
 ipc.send('executeConnect');
-
-// client.addListener('hosting', hosting);
-// client.addListener('unhost', function(channel, viewers) {
-//   hosting(channel, null, viewers, true)
-// });

@@ -17,7 +17,10 @@ if (env.name !== 'production') {
 app.on('ready', () => {
   const mainWindow = createWindow('main', {
     width: 1000,
+    minWidth: 576,
     height: 600,
+    minHeight: 324,
+    frame: false,
     show: false
   });
 

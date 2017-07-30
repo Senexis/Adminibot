@@ -26,20 +26,20 @@
 <body>
   <main class="main">
     <header class="header">
-      <div class="navigation-trigger hidden-xl-up" data-ma-action="aside-open" data-ma-target=".sidebar">
+      <a class="navigation-trigger hidden-xl-up" data-ma-action="aside-open" data-ma-target=".sidebar">
         <div class="navigation-trigger__inner">
           <i class="navigation-trigger__line"></i>
           <i class="navigation-trigger__line"></i>
           <i class="navigation-trigger__line"></i>
         </div>
-      </div>
+      </a>
 
       <div class="header__logo">
-        <h1><a href="index.html">Adminibot</a></h1>
+        <h1>Adminibot</h1>
       </div>
 
       <ul class="top-nav">
-        <li class="dropdown">
+        <li>
           <a href="#">
             <i class="zmdi zmdi-settings"></i>
           </a>
@@ -53,6 +53,21 @@
             <a href="https://gitlab.com/Nadermane/adminibot-electron-edition" class="dropdown-item js-external-link">Visit our website</a>
             <a href="https://gitlab.com/Nadermane/adminibot-electron-edition/issues" class="dropdown-item js-external-link">Report a bug</a>
           </div>
+        </li>
+        <li>
+          <a id="min-btn" title="" data-toggle="tooltip" data-placement="bottom" data-original-title="Minimize">
+            <i class="zmdi zmdi-window-minimize"></i>
+          </a>
+        </li>
+        <li>
+          <a id="max-btn" title="" data-toggle="tooltip" data-placement="bottom" data-original-title="Maximize">
+            <i class="zmdi zmdi-window-maximize"></i>
+          </a>
+        </li>
+        <li>
+          <a id="close-btn" title="" data-toggle="tooltip" data-placement="bottom" data-original-title="Close">
+            <i class="zmdi zmdi-close"></i>
+          </a>
         </li>
       </ul>
     </header>
