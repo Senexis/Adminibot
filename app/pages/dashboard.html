@@ -6,7 +6,7 @@
   <div class="col-sm-6 col-md-3">
     <div class="quick-stats__item bg-deep-purple">
       <div class="quick-stats__info">
-        <h2>6</h2>
+        <h2>{{stats.followers | number}}</h2>
         <small>Followers</small>
       </div>
     </div>
@@ -14,7 +14,7 @@
   <div class="col-sm-6 col-md-3">
     <div class="quick-stats__item bg-deep-purple">
       <div class="quick-stats__info">
-        <h2>0</h2>
+        <h2>{{stats.viewers | number}}</h2>
         <small>Viewers</small>
       </div>
     </div>
@@ -22,7 +22,7 @@
   <div class="col-sm-6 col-md-3">
     <div class="quick-stats__item bg-deep-purple">
       <div class="quick-stats__info">
-        <h2>362</h2>
+        <h2>{{stats.views | number}}</h2>
         <small>Views</small>
       </div>
     </div>
@@ -30,7 +30,7 @@
   <div class="col-sm-6 col-md-3">
     <div class="quick-stats__item bg-deep-purple">
       <div class="quick-stats__info">
-        <h2>0</h2>
+        <h2>{{stats.subscribers | number}}</h2>
         <small>Subscribers</small>
       </div>
     </div>
@@ -47,18 +47,18 @@
 
       <div class="card-block">
         <div class="form-group form-group--float">
-          <input type="text" class="form-control">
+          <input type="text" class="form-control" ng-model="stream.title">
           <label>Title</label>
           <i class="form-group__bar"></i>
         </div>
         <div class="form-group form-group--float">
-          <input type="text" class="form-control">
+          <input type="text" class="form-control" ng-model="stream.game">
           <label>Game / Category</label>
           <i class="form-group__bar"></i>
         </div>
         <div class="input-group">
           <div class="form-group form-group--float">
-            <input type="number" class="form-control">
+            <input type="number" class="form-control" ng-model="stream.delay">
             <label>Stream delay</label>
             <i class="form-group__bar"></i>
           </div>
@@ -67,7 +67,7 @@
         <div class="form-group">
           <span class="toggle-switch-label">Channel feed</span>
           <div class="toggle-switch">
-            <input type="checkbox" class="toggle-switch__checkbox">
+            <input type="checkbox" class="toggle-switch__checkbox" ng-model="stream.channelFeedEnabled">
             <i class="toggle-switch__helper"></i>
           </div>
           <div class="clearfix"></div>
@@ -81,7 +81,7 @@
       </div>
 
       <div class="card-block">
-        <p>Text.</p>
+        <p>{{test}}</p>
       </div>
 
       <div class="card-footer">
@@ -102,19 +102,19 @@
         <div class="form-group">
           <span>Run commercial</span>
           <select class="select2" data-minimum-results-for-search="Infinity">
-            <option disabled selected>Select a length...</option>
-            <option>30 seconds</option>
-            <option>60 seconds</option>
-            <option>90 seconds</option>
-            <option>120 seconds</option>
-            <option>150 seconds</option>
-            <option>180 seconds</option>
+            <option value="">Select a length...</option>
+            <option value="30s">30 seconds</option>
+            <option value="60s">60 seconds</option>
+            <option value="90s">90 seconds</option>
+            <option value="120s">120 seconds</option>
+            <option value="150s">150 seconds</option>
+            <option value="180s">180 seconds</option>
           </select>
         </div>
         <div class="form-group">
           <span class="toggle-switch-label">Automatic commercials</span>
           <div class="toggle-switch">
-            <input type="checkbox" class="toggle-switch__checkbox">
+            <input type="checkbox" class="toggle-switch__checkbox" ng-model="commercials.autoEnabled">
             <i class="toggle-switch__helper"></i>
           </div>
           <div class="clearfix"></div>
@@ -123,17 +123,17 @@
           <span class="input-group-label">Time between commercials</span>
           <div class="input-group">
             <div class="form-group">
-              <input type="number" class="form-control" value="1" min="0" max="23">
+              <input type="number" class="form-control" value="1" min="0" max="23" ng-model="commercials.autoTimeHours" ng-disabled="!commercials.autoEnabled">
               <i class="form-group__bar"></i>
             </div>
             <span class="input-group-addon">h</span>
             <div class="form-group">
-              <input type="number" class="form-control" value="0" min="0" max="59">
+              <input type="number" class="form-control" value="0" min="0" max="59" ng-model="commercials.autoTimeMinutes" ng-disabled="!commercials.autoEnabled">
               <i class="form-group__bar"></i>
             </div>
             <span class="input-group-addon">m</span>
             <div class="form-group">
-              <input type="number" class="form-control" value="0" min="0" max="59">
+              <input type="number" class="form-control" value="0" min="0" max="59" ng-model="commercials.autoTimeSeconds" ng-disabled="!commercials.autoEnabled">
               <i class="form-group__bar"></i>
             </div>
             <span class="input-group-addon">s</span>
@@ -141,20 +141,20 @@
         </div>
         <div class="form-group">
           <span>Commercial length</span>
-          <select class="select2" data-minimum-results-for-search="Infinity">
-            <option disabled selected>Select a length...</option>
-            <option>30 seconds</option>
-            <option>60 seconds</option>
-            <option>90 seconds</option>
-            <option>120 seconds</option>
-            <option>150 seconds</option>
-            <option>180 seconds</option>
+          <select class="select2" data-minimum-results-for-search="Infinity" ng-model="commercials.autoTimeLength" ng-disabled="!commercials.autoEnabled">
+            <option value="">Select a length...</option>
+            <option value="30s">30 seconds</option>
+            <option value="60s">60 seconds</option>
+            <option value="90s">90 seconds</option>
+            <option value="120s">120 seconds</option>
+            <option value="150s">150 seconds</option>
+            <option value="180s">180 seconds</option>
           </select>
         </div>
         <div class="form-group">
           <span class="toggle-switch-label">Desktop notifications</span>
           <div class="toggle-switch">
-            <input type="checkbox" class="toggle-switch__checkbox">
+            <input type="checkbox" class="toggle-switch__checkbox" ng-model="commercials.autoNotifyDesktop" ng-disabled="!commercials.autoEnabled">
             <i class="toggle-switch__helper"></i>
           </div>
           <div class="clearfix"></div>
@@ -162,7 +162,7 @@
         <div class="form-group">
           <span class="toggle-switch-label">Chat notifications</span>
           <div class="toggle-switch">
-            <input type="checkbox" class="toggle-switch__checkbox">
+            <input type="checkbox" class="toggle-switch__checkbox" ng-model="commercials.autoNotifyChat" ng-disabled="!commercials.autoEnabled">
             <i class="toggle-switch__helper"></i>
           </div>
           <div class="clearfix"></div>

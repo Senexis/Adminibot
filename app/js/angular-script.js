@@ -1,9 +1,11 @@
-angular.module('adminibot', ["ngRoute"]).
-config(function($routeProvider, $locationProvider) {
+var app = angular.module('adminibot', ["ngRoute"]);
+
+app.config(function($routeProvider, $locationProvider) {
   $routeProvider.
   when('/', {
     templateUrl: 'pages/dashboard.html',
-    activetab: "dashboard"
+    activetab: "dashboard",
+    controller: "dashboardController"
   }).
   when('/announcements', {
     templateUrl: 'pages/announcements.html',
@@ -73,5 +75,34 @@ config(function($routeProvider, $locationProvider) {
         dropdownParent: select2parent
       });
     }
+  }
+});
+
+app.controller("dashboardController", function ($scope) {
+  var appVersion = require('electron').remote.app.getVersion();
+  $scope.test = appVersion;
+
+  $scope.stats = {
+    followers: 12345,
+    viewers: 1234,
+    views: 12345678,
+    subscribers: 123
+  }
+
+  $scope.stream = {
+    title: 'test',
+    game: 'test',
+    delay: 0,
+    channelFeedEnabled: true
+  };
+
+  $scope.commercials = {
+    autoEnabled: false,
+    autoTimeHours: 1,
+    autoTimeMinutes: 0,
+    autoTimeSeconds: 0,
+    autoTimeLength: '30s',
+    autoNotifyDesktop: false,
+    autoNotifyChat: true
   }
 });

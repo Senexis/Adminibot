@@ -59,7 +59,8 @@
 }
 
 #chat .chat-notice {
-  background-color: rgba(255,255,255,0.01);
+  padding: 8px 2.1rem 8px 1.8rem;
+  border-left: solid 0.3rem #6036ab;
 }
 
 #chat-actions {

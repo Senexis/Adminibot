@@ -16,12 +16,12 @@ const CommandError = function(category, displayName, message, exception) {
   this.Exception = exception;
 };
 
-const CONST_CATEGORY_GENERAL = 'General';
+var CONST_CATEGORY_QUOTES = 'Quotes';
 
 // This is where all the commands go.
 var Commands = [];
 
-// Commands.push(new Command(CONST_CATEGORY_GENERAL, 'Command', 'Description of the command.', ['command'], 1, function(userstate, messageArray) {
+// Commands.push(new Command(CONST_CATEGORY_QUOTES, 'Command', 'Description of the command.', ['command'], 1, function(userstate, messageArray) {
 //   return `Enter the command response here.`;
 // }));
 

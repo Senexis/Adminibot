@@ -44,25 +44,23 @@ app.on('window-all-closed', () => {
 });
 
 // Commands stuffs
-// To make things easier in the long run, we define all categories here so we can change names in the future, need be.
-// var CONST_CATEGORY_COMMANDS = "Commands";
-// var CONST_CATEGORY_TIMERS = "Timer";
-// var CONST_CATEGORY_QUOTES = "Quotes";
-// var CONST_CATEGORY_COUNTERS = "Counters";
-// var CONST_CATEGORY_GIVEAWAYS = "Giveaways";
-// var CONST_CATEGORY_CURRENCY = "Currency";
-// var CONST_CATEGORY_POLLS = "Polls";
-// var CONST_CATEGORY_GAMES = "Games";
-// var CONST_CATEGORY_EVENTS = "Events";
-// var CONST_CATEGORY_QUEUES = "Queues";
-// var CONST_CATEGORY_ANNOUNCEMENTS = "Announcements";
-// var CONST_CATEGORY_MODERATION = "Moderation";
-// var CONST_CATEGORY_OTHER = "Miscellaneous";
-
+import announcementCommands from './commands/announcements';
+import customCommands from './commands/commands';
+import counterCommands from './commands/counters';
+import currencyCommands from './commands/currency';
+import eventCommands from './commands/events';
+import gameCommands from './commands/games';
 import generalCommands from './commands/general';
+import giveawayCommands from './commands/giveaways';
+import miscellaneousCommands from './commands/miscellanious';
+import moderationCommands from './commands/moderation';
+import pollCommands from './commands/polls';
+import queueCommands from './commands/queues';
+import quoteCommands from './commands/quotes';
+import timerCommands from './commands/timers';
 
 let Commands = [];
-Commands = Commands.concat(generalCommands);
+Commands = Commands.concat(announcementCommands, customCommands, counterCommands, currencyCommands, eventCommands, gameCommands, generalCommands, giveawayCommands, miscellaneousCommands, moderationCommands, pollCommands, queueCommands, quoteCommands, timerCommands);
 
 // We expect an array here. We can save time by checking the message has a '!' first this way.
 let ProcessCommand = function(userstate, input) {
@@ -89,6 +87,12 @@ let CompareArrays = function(array1, array2) {
     return false;
   }
 
+  // Do the first items match?
+  // Done to be able to skip the for loop.
+  if (array1[0] != array2[0]) {
+    return false;
+  }
+
   // Iterate over the arrays to check them to be the same.
   for (var i = 0, l = array1.length; i < l; i++) {
     if (array1[i] instanceof Array && array2[i] instanceof Array) {
@@ -109,7 +113,7 @@ let ProcessMessage = function(input) {
   if (typeof input === 'string') {
     console.log(input);
     IrcClient.say("Adminibot", input).catch(function(err) {
-        console.error(err);
+      console.error(err);
     });
   } else if (typeof input === 'object' && input.constructor.name === 'CommandError') {
     console.error(`The command "${input.DisplayName}" returned "${input.Message}".`);
@@ -173,7 +177,7 @@ ipc.on('executeEmoteonlyoff', (event, arg) => {
 });
 
 ipc.on('executeFollowersonly', (event, arg) => {
-  IrcClient.followersonly(arg.channel, arg.length);
+  IrcClient.followersonly(arg.channel, arg.duration);
 });
 
 ipc.on('executeFollowersonlyoff', (event, arg) => {
@@ -221,7 +225,7 @@ ipc.on('executeSay', (event, arg) => {
 });
 
 ipc.on('executeSlow', (event, arg) => {
-  IrcClient.slow(arg.channel, arg.length);
+  IrcClient.slow(arg.channel, arg.duration);
 });
 
 ipc.on('executeSlowoff', (event, arg) => {
@@ -237,7 +241,7 @@ ipc.on('executeSubscribersoff', (event, arg) => {
 });
 
 ipc.on('executeTimeout', (event, arg) => {
-  IrcClient.timeout(arg.channel, arg.username, arg.length, arg.reason);
+  IrcClient.timeout(arg.channel, arg.username, arg.duration, arg.reason);
 });
 
 ipc.on('executeUnban', (event, arg) => {
@@ -258,7 +262,7 @@ ipc.on('executeWhisper', (event, arg) => {
 
 // IRC Events
 ipc.on('subscribeToAction', (event, arg) => {
-  IrcClient.on("action", function (channel, userstate, message, self) {
+  IrcClient.on("action", function(channel, userstate, message, self) {
     event.sender.send('actionReceived', {
       channel: channel,
       userstate: userstate,
@@ -269,7 +273,7 @@ ipc.on('subscribeToAction', (event, arg) => {
 });
 
 ipc.on('subscribeToBan', (event, arg) => {
-  IrcClient.on("ban", function (channel, username, reason) {
+  IrcClient.on("ban", function(channel, username, reason) {
     event.sender.send('banReceived', {
       channel: channel,
       username: username,
@@ -279,21 +283,21 @@ ipc.on('subscribeToBan', (event, arg) => {
 });
 
 ipc.on('subscribeToChat', (event, arg) => {
-  IrcClient.on("chat", function (channel, userstate, message, self) {
-    if (message.charAt(0) === '!')
-      ProcessCommand(userstate, argsplit(message.substring(1)));
-
+  IrcClient.on("chat", function(channel, userstate, message, self) {
     event.sender.send('chatReceived', {
       channel: channel,
       userstate: userstate,
       message: message,
       self: self
     });
+
+    if (message.charAt(0) === '!')
+      ProcessCommand(userstate, argsplit(message.substring(1)));
   });
 });
 
 ipc.on('subscribeToCheer', (event, arg) => {
-  IrcClient.on("cheer", function (channel, userstate, message) {
+  IrcClient.on("cheer", function(channel, userstate, message) {
     event.sender.send('cheerReceived', {
       channel: channel,
       userstate: userstate,
@@ -303,7 +307,7 @@ ipc.on('subscribeToCheer', (event, arg) => {
 });
 
 ipc.on('subscribeToClearchat', (event, arg) => {
-  IrcClient.on("clearchat", function (channel) {
+  IrcClient.on("clearchat", function(channel) {
     event.sender.send('clearchatReceived', {
       channel: channel
     });
@@ -311,7 +315,7 @@ ipc.on('subscribeToClearchat', (event, arg) => {
 });
 
 ipc.on('subscribeToConnected', (event, arg) => {
-  IrcClient.on("connected", function (address, port) {
+  IrcClient.on("connected", function(address, port) {
     event.sender.send('connectedReceived', {
       address: address,
       port: port
@@ -320,7 +324,7 @@ ipc.on('subscribeToConnected', (event, arg) => {
 });
 
 ipc.on('subscribeToConnecting', (event, arg) => {
-  IrcClient.on("connecting", function (address, port) {
+  IrcClient.on("connecting", function(address, port) {
     event.sender.send('connectingReceived', {
       address: address,
       port: port
@@ -329,7 +333,7 @@ ipc.on('subscribeToConnecting', (event, arg) => {
 });
 
 ipc.on('subscribeToDisconnected', (event, arg) => {
-  IrcClient.on("disconnected", function (reason) {
+  IrcClient.on("disconnected", function(reason) {
     event.sender.send('disconnectedReceived', {
       reason: reason
     });
@@ -337,7 +341,7 @@ ipc.on('subscribeToDisconnected', (event, arg) => {
 });
 
 ipc.on('subscribeToEmoteonly', (event, arg) => {
-  IrcClient.on("emoteonly", function (channel, enabled) {
+  IrcClient.on("emoteonly", function(channel, enabled) {
     event.sender.send('emoteonlyReceived', {
       channel: channel,
       enabled: enabled
@@ -346,7 +350,7 @@ ipc.on('subscribeToEmoteonly', (event, arg) => {
 });
 
 ipc.on('subscribeToEmotesets', (event, arg) => {
-  IrcClient.on("emotesets", function (sets, obj) {
+  IrcClient.on("emotesets", function(sets, obj) {
     event.sender.send('emotesetsReceived', {
       sets: sets,
       obj: obj
@@ -355,17 +359,17 @@ ipc.on('subscribeToEmotesets', (event, arg) => {
 });
 
 ipc.on('subscribeToFollowersonly', (event, arg) => {
-  IrcClient.on("followersonly", function (channel, enabled, length) {
+  IrcClient.on("followersonly", function(channel, enabled, duration) {
     event.sender.send('followersonlyReceived', {
       channel: channel,
       enabled: enabled,
-      length: length
+      duration: duration
     });
   });
 });
 
 ipc.on('subscribeToHosted', (event, arg) => {
-  IrcClient.on("hosted", function (channel, username, viewers, autohost) {
+  IrcClient.on("hosted", function(channel, username, viewers, autohost) {
     event.sender.send('hostedReceived', {
       channel: channel,
       username: username,
@@ -376,7 +380,7 @@ ipc.on('subscribeToHosted', (event, arg) => {
 });
 
 ipc.on('subscribeToHosting', (event, arg) => {
-  IrcClient.on("hosting", function (channel, target, viewers) {
+  IrcClient.on("hosting", function(channel, target, viewers) {
     event.sender.send('hostingReceived', {
       channel: channel,
       target: target,
@@ -386,7 +390,7 @@ ipc.on('subscribeToHosting', (event, arg) => {
 });
 
 ipc.on('subscribeToJoin', (event, arg) => {
-  IrcClient.on("join", function (channel, username, self) {
+  IrcClient.on("join", function(channel, username, self) {
     event.sender.send('joinReceived', {
       channel: channel,
       username: username,
@@ -396,13 +400,13 @@ ipc.on('subscribeToJoin', (event, arg) => {
 });
 
 ipc.on('subscribeToLogon', (event, arg) => {
-  IrcClient.on("logon", function () {
+  IrcClient.on("logon", function() {
     event.sender.send('logonReceived', null);
   });
 });
 
 ipc.on('subscribeToMessage', (event, arg) => {
-  IrcClient.on("message", function (channel, userstate, message, self) {
+  IrcClient.on("message", function(channel, userstate, message, self) {
     event.sender.send('messageReceived', {
       channel: channel,
       userstate: userstate,
@@ -413,7 +417,7 @@ ipc.on('subscribeToMessage', (event, arg) => {
 });
 
 ipc.on('subscribeToMod', (event, arg) => {
-  IrcClient.on("mod", function (channel, username) {
+  IrcClient.on("mod", function(channel, username) {
     event.sender.send('modReceived', {
       channel: channel,
       username: username
@@ -422,7 +426,7 @@ ipc.on('subscribeToMod', (event, arg) => {
 });
 
 ipc.on('subscribeToMods', (event, arg) => {
-  IrcClient.on("mods", function (channel, mods) {
+  IrcClient.on("mods", function(channel, mods) {
     event.sender.send('modsReceived', {
       channel: channel,
       mods: mods
@@ -431,7 +435,7 @@ ipc.on('subscribeToMods', (event, arg) => {
 });
 
 ipc.on('subscribeToNotice', (event, arg) => {
-  IrcClient.on("notice", function (channel, msgid, message) {
+  IrcClient.on("notice", function(channel, msgid, message) {
     event.sender.send('noticeReceived', {
       channel: channel,
       msgid: msgid,
@@ -441,7 +445,7 @@ ipc.on('subscribeToNotice', (event, arg) => {
 });
 
 ipc.on('subscribeToPart', (event, arg) => {
-  IrcClient.on("part", function (channel, username, self) {
+  IrcClient.on("part", function(channel, username, self) {
     event.sender.send('partReceived', {
       channel: channel,
       username: username,
@@ -451,13 +455,13 @@ ipc.on('subscribeToPart', (event, arg) => {
 });
 
 ipc.on('subscribeToPing', (event, arg) => {
-  IrcClient.on("ping", function () {
+  IrcClient.on("ping", function() {
     event.sender.send('pingReceived', null);
   });
 });
 
 ipc.on('subscribeToPong', (event, arg) => {
-  IrcClient.on("pong", function (latency) {
+  IrcClient.on("pong", function(latency) {
     event.sender.send('pongReceived', {
       latency: latency
     });
@@ -465,7 +469,7 @@ ipc.on('subscribeToPong', (event, arg) => {
 });
 
 ipc.on('subscribeToR9kbeta', (event, arg) => {
-  IrcClient.on("r9kbeta", function (channel, enabled) {
+  IrcClient.on("r9kbeta", function(channel, enabled) {
     event.sender.send('r9kbetaReceived', {
       channel: channel,
       enabled: enabled
@@ -474,13 +478,13 @@ ipc.on('subscribeToR9kbeta', (event, arg) => {
 });
 
 ipc.on('subscribeToReconnect', (event, arg) => {
-  IrcClient.on("reconnect", function () {
+  IrcClient.on("reconnect", function() {
     event.sender.send('reconnectReceived', null);
   });
 });
 
 ipc.on('subscribeToResub', (event, arg) => {
-  IrcClient.on("resub", function (channel, username, months, message, userstate, methods) {
+  IrcClient.on("resub", function(channel, username, months, message, userstate, methods) {
     event.sender.send('resubReceived', {
       channel: channel,
       username: username,
@@ -493,7 +497,7 @@ ipc.on('subscribeToResub', (event, arg) => {
 });
 
 ipc.on('subscribeToRoomstate', (event, arg) => {
-  IrcClient.on("roomstate", function (channel, state) {
+  IrcClient.on("roomstate", function(channel, state) {
     event.sender.send('roomstateReceived', {
       channel: channel,
       state: state
@@ -502,23 +506,23 @@ ipc.on('subscribeToRoomstate', (event, arg) => {
 });
 
 ipc.on('subscribeToServerchange', (event, arg) => {
-  IrcClient.on("serverchange", function () {
+  IrcClient.on("serverchange", function() {
     event.sender.send('serverchangeReceived', null);
   });
 });
 
 ipc.on('subscribeToSlowmode', (event, arg) => {
-  IrcClient.on("slowmode", function (channel, enabled, length) {
+  IrcClient.on("slowmode", function(channel, enabled, duration) {
     event.sender.send('slowmodeReceived', {
       channel: channel,
       enabled: enabled,
-      length: length
+      duration: duration
     });
   });
 });
 
 ipc.on('subscribeToSubscribers', (event, arg) => {
-  IrcClient.on("subscribers", function (channel, enabled) {
+  IrcClient.on("subscribers", function(channel, enabled) {
     event.sender.send('subscribersReceived', {
       channel: channel,
       enabled: enabled
@@ -527,7 +531,7 @@ ipc.on('subscribeToSubscribers', (event, arg) => {
 });
 
 ipc.on('subscribeToSubscription', (event, arg) => {
-  IrcClient.on("subscription", function (channel, username, method, message, userstate) {
+  IrcClient.on("subscription", function(channel, username, method, message, userstate) {
     event.sender.send('subscriptionReceived', {
       channel: channel,
       username: username,
@@ -539,7 +543,7 @@ ipc.on('subscribeToSubscription', (event, arg) => {
 });
 
 ipc.on('subscribeToTimeout', (event, arg) => {
-  IrcClient.on("timeout", function (channel, username, reason, duration) {
+  IrcClient.on("timeout", function(channel, username, reason, duration) {
     event.sender.send('timeoutReceived', {
       channel: channel,
       username: username,
@@ -550,7 +554,7 @@ ipc.on('subscribeToTimeout', (event, arg) => {
 });
 
 ipc.on('subscribeToUnhost', (event, arg) => {
-  IrcClient.on("unhost", function (channel, viewers) {
+  IrcClient.on("unhost", function(channel, viewers) {
     event.sender.send('unhostReceived', {
       channel: channel,
       viewers: viewers
@@ -559,7 +563,7 @@ ipc.on('subscribeToUnhost', (event, arg) => {
 });
 
 ipc.on('subscribeToUnmod', (event, arg) => {
-  IrcClient.on("unmod", function (channel, username) {
+  IrcClient.on("unmod", function(channel, username) {
     event.sender.send('unmodReceived', {
       channel: channel,
       username: username
@@ -568,7 +572,7 @@ ipc.on('subscribeToUnmod', (event, arg) => {
 });
 
 ipc.on('subscribeToWhisper', (event, arg) => {
-  IrcClient.on("whisper", function (from, userstate, message, self) {
+  IrcClient.on("whisper", function(from, userstate, message, self) {
     event.sender.send('whisperReceived', {
       from: from,
       userstate: userstate,
